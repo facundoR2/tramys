@@ -1,0 +1,65 @@
+/*estilos para la applicacion */
+:root{
+    --header-height:72px;
+    --accent:#2b6cb0;
+    --muted:#6b7280;
+    }
+    *{box-sizing:border-box;font-family:system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial;}
+    body,html{height:100%;margin:0;background:#f7fafc;color:#111827}
+    header{
+    height:var(--header-height);
+    display:flex;
+    align-items:center;
+    gap:16px;
+    padding:10px 18px;
+    background:#fff;
+    box-shadow:0 1px 3px rgba(0,0,0,.06);
+    position:sticky;
+    top:0;
+        z-index:1000;
+    }
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;color:var(--accent)}
+.brand .logo{width:40px;height:40px;background:linear-gradient(135deg,#2b6cb0,#2c7be5);border-radius:8px;display:flex;align-items:center;justify-content:center;color:white;font-weight:800}
+.search-wrap{flex:1;display:flex;align-items:center;gap:8px}
+.search-wrap input[type="search"]{
+        width:100%;
+        padding:10px 12px;
+        border-radius:8px;
+        border:1px solid #e5e7eb;
+        outline:none;
+        font-size:14px;
+        background:#fff;
+    }
+.actions{display:flex;gap:8px;align-items:center}
+.actions .btn{
+    padding:8px 12px;
+        border-radius:8px;
+        border:1px solid transparent;
+        background:var(--accent);
+        color:white;
+        cursor:pointer;
+        font-weight:600;
+    }
+.actions .btn.secondary{background:#fff;color:var(--accent);border-color:#e5e7eb}
+.header-buttons{display:flex;gap:8px;align-items:center;margin-left:12px}
+.header-buttons button{padding:8px 10px;border-radius:8px;background:transparent;border:1px solid transparent;cursor:pointer;font-weight:600;color:var(--muted)}
+.header-buttons button:hover{background:#f1f5f9;color:var(--accent)}
+main{height:calc(100vh - var(--header-height));display:flex;gap:12px;padding:12px}
+/* Layout: map left, tramites right */
+.map-area{flex:2;min-width:320px;background:#fff;border-radius:10px;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,.06);display:flex;flex-direction:column}
+#map{flex:1;min-height:300px}
+.map-controls{padding:10px;border-top:1px solid #eef2f7;background:#fbfdff;display:flex;gap:10px;align-items:center}
+.map-info{font-size:13px;color:var(--muted)}
+.side-panel{flex:1;min-width:300px;background:#fff;border-radius:10px;padding:12px;box-shadow:0 1px 4px rgba(0,0,0,.06);display:flex;flex-direction:column;overflow:auto}
+.panel-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.tramites-list{display:flex;flex-direction:column;gap:10px}
+.tramite{padding:12px;border-radius:8px;border:1px solid #eef2f7;background:linear-gradient(180deg,#fff,#fbfdff);display:flex;justify-content:space-between;align-items:center}
+.tramite .meta{display:flex;flex-direction:column;gap:4px}
+.tramite .meta .title{font-weight:700}
+.tramite .meta .desc{font-size:13px;color:var(--muted)}
+.small{font-size:13px;color:var(--muted)}
+footer.note{font-size:12px;color:var(--muted);margin-top:auto;padding-top:10px;border-top:1px dashed #eef2f7}
+@media(max-width:900px){
+    main{flex-direction:column}
+    .side-panel{min-height:240px}
+}

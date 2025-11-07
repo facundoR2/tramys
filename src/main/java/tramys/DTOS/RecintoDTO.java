@@ -1,20 +1,6 @@
-package tramys.Models;
+package tramys.DTOS;
 
-import jakarta.persistence.*;
-import org.hibernate.annotations.GenericGenerator;
-
-
-import java.util.HashSet;
-import java.util.Set;
-
-@Entity
-public class Recinto {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
-    @GenericGenerator(name = "native", strategy = "native")
-    private int id;
-
+public class RecintoDTO {
     private double lat;
     private double lng;
 
@@ -25,38 +11,20 @@ public class Recinto {
     private String hAtencion;
     private String hCierre;
 
-    private boolean activo = true; //agregado nuevo atributo para borrado logico.
-
-    @ManyToOne
-    @JoinColumn(name = "creador_id")
-    private Usuario creador;
-
-    @OneToMany(mappedBy = "recinto", fetch = FetchType.EAGER)
-    Set<Tramite> tramites = new HashSet<>();
 
 
-    public Recinto (){}
 
-    public Recinto( double lat,double lng,String nombre,String direccion,String hAtencion,String hCierre){
+    public RecintoDTO(){}
+
+    public RecintoDTO(double lat,double lng, String nombre,String direccion, String hAtencion,String hCierre){
         this.lat = lat;
         this.lng = lng;
         this.nombre = nombre;
         this.direccion = direccion;
         this.hAtencion = hAtencion;
         this.hCierre = hCierre;
-        this.activo = true; //nuevo, por las dudas no se agrege a la BD.
+
     }
-
-    public Set<Tramite> getTramites(){
-        return tramites;
-    }
-
-    public void addTramite(Tramite tramite){
-        tramite.setRecinto(this);
-        tramites.add(tramite);
-    }
-
-
 
 
     public double getLat() {
@@ -107,11 +75,7 @@ public class Recinto {
         this.hCierre = hCierre;
     }
 
-    public boolean isActivo(){
-        return activo; //funcion get para boolean activo.
-    }
 
-    public void setActivo(boolean activo){
-        this.activo = activo; //funcion set para boolean activo.
-    }
+
+
 }
