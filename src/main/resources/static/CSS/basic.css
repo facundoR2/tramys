@@ -1,0 +1,42 @@
+* {
+    margin:0;
+    padding: 0;
+    box-sizing: border-box;
+}
+:root{
+    --header-height:72px;
+    --accent:#2b6cb0;
+    --muted:#6b7280;
+}
+body {
+    font-family: "Segoe UI", Roboto, sans-serif;
+    background: #f5f7fb;
+    color: #333;
+    line-height: 1.4;
+}
+header{
+    height:var(--header-height);
+    display:flex;
+    align-items:center;
+    gap:16px;
+    padding:10px 18px;
+    background:#fff;
+    box-shadow:0 1px 3px rgba(0,0,0,.06);
+    position:sticky;
+    top:0;
+    z-index:5000;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+.container {
+    width: 95%;
+    max-width: 1400px;
+    margin: auto;
+}
+.shadow-soft {
+    box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+}

@@ -3,15 +3,13 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <link rel="stylesheet" href="/CSS/index.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <title>Tramys - Inicio</title>
 
     <!-- Leaflet CSS -->
-    <link
-        rel="stylesheet"
-        href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-        integrity="sha256-sA+e2m6GQm4fJ8k9Gv3yqQZ1a3QdX8zM1u6TvC3t0uA="
-        crossorigin=""
-    />
+    
 
     
 </head>
@@ -26,7 +24,8 @@
         </div>
 
         <div class="search-wrap" role="search" aria-label="Buscar lugar">
-            <input id="searchInput" type="search" placeholder="Buscar dirección o lugar (ej: Plaza Mayor, Madrid)" />
+            <input id="searchInput" type="search" placeholder="Buscar dirección o lugar (ej: San martin nnn, Rio Grande)" />
+            <ul id="listaResultados"></ul>
             <div class="actions">
                 <button id="searchBtn" class="btn">Buscar</button>
                 <button id="locateBtn" class="btn secondary" title="Centrar en mi ubicación">Mi ubicación</button>
@@ -43,14 +42,14 @@
                     <div style="font-weight:700">Usuario Anónimo</div>
                     <div style="font-size:12px;color:var(--muted)">Acceso limitado</div>
                 </div>
-                <a href="/usuario" class="btn" style="text-decoration:none;padding:8px 10px">Mi usuario</a>
+                <a href="/HTML/usuario.html" class="btn" style="text-decoration:none;padding:8px 10px">Mi usuario</a>
             </div>
         </div>
     </header>
 
     <main>
         <section class="map-area" aria-label="Mapa">
-            <div id="map" aria-hidden="false"></div>
+            <div id="map"></div>
             <div class="map-controls">
                 <div class="map-info" id="mapStatus">Haz clic en el mapa para seleccionar una ubicación.</div>
                 <div style="margin-left:auto" class="small">Click para seleccionar →</div>
@@ -64,6 +63,7 @@
                     <div class="small" id="selectedCoords">Ninguna ubicación seleccionada</div>
                 </div>
                 <div class="small" id="selectedAddress"></div>
+                <button id="clearSelectionBtn" class="btn secondary small">Limpiar selección</button>
             </div>
 
             <div id="tramitesContainer" class="tramites-list">
@@ -71,18 +71,21 @@
             </div>
 
             <div class="note" style="margin-top:12px;font-size:13px;color:var(--muted)">
-                Consejo: Busca tu dirección o haz clic en el mapa. Los resultados son ejemplos y deben conectarse a tu backend real.
+                Consejo: Busca tu dirección o haz clic en el mapa. Luego selecciona un trámite para ver más detalles.
             </div>
         </aside>
     </main>
+    <div id="tramiteModal" class="modal hidden">
+            <div class="modal-content">
+                <h2 id="modalTitle"></h2>
+                <p id="modalDescription"></p>
+                <button id="cerrarModal" class="btn secondary">Cerrar</button>
+            </div>
+        </div>
+    
+    
 
-    <!-- Leaflet JS -->
-    <script
-        src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
-        integrity="sha256-o9N1j6l7rYgFqv/1h7qgYfYQ8b4Qv1p6a6x4u9g4vJ0="
-        crossorigin=""
-    ></script>
-
+    <script type="module" src="/JS/logic_index.js"></script>
     
 </body>
 </html>

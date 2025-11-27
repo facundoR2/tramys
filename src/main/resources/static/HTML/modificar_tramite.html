@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../CSS/basic.css">
+    <link rel="stylesheet" href="../CSS/componentes.css">
+    <link rel="stylesheet" href="../CSS/layout.css">
+    <link rel="stylesheet" href="../CSS/crear_tramite.css">
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <title>Crear Tramite</title>
+</head>
+<body>
+    <header>
+        <div class="brand" aria-hidden="true">
+            <div class="logo">T</div>
+            <div>
+                <div>Tramys</div>
+                <div style="font-size:12px;color:var(--muted)">Gestión de trámites</div>
+            </div>
+        </div>
+
+        <div class="search-wrap" role="search" aria-label="Buscar lugar">
+            <input id="searchInput" type="search" placeholder="Buscar dirección o lugar (ej: Plaza almirante Brown, Rio Grande)" />
+            <ul id="listaResultados"></ul>
+            <div class="actions">
+                <button id="searchBtn" class="btn">Buscar</button>
+            </div>
+        </div>
+
+        <div class="header-buttons" role="navigation" aria-label="Navegación principal">
+            <button id="btnTramite">Trámite</button>
+            <button id="btnDocumentos">Documentos</button>
+            <button id="btnLugares">Lugares</button>
+            <div style="width:1px;height:32px;background:#eef2f7;margin-left:6px;margin-right:6px"></div>
+            <div id="container_userInfo">
+                <div style="text-align:right">
+                    <div id="userName" style="font-weight:700">Usuario Anónimo</div>
+                    <div id="typeAccess" style="font-size:12px;color:var(--muted)">Acceso limitado</div>
+                </div>
+                <a href="/usuario" class="btn" style="text-decoration:none;padding:8px 10px">Mi usuario</a>
+            </div>
+        </div>
+    </header>
+    <div class="container">
+        <!-- Section 1: Tramite Details -->
+        <section class="tramite-details">
+            <form>
+                <div class="form-layout">
+                    <div class="left-panel">
+                        <div class="form-group">
+                            <h2 for="map">Ubicación en el Mapa:</h2>
+                            <div id="map" style="height: 300px; border: 1px solid #ccc;"></div>
+                            <label for="ubicacion">Ubicación:</label>
+                            <input type="text" id="ubicacion" name="ubicacion" placeholder="Haga clic en el mapa para seleccionar" readonly required>
+                        </div>
+                    </div>
+                    <div class="right-panel">
+                        <h2>Datos del Trámite</h2>
+                        <input type="hidden" id="tramiteId" name="tramiteId">
+                        <div class="form-group">
+                            <label for="nombre">Nombre del Trámite:</label>
+                            <input type="text" id="nombre" name="nombre" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="edificio">Edificio:</label>
+                            <input type="text" id="edificio" name="edificio" required>
+                        </div>
+                        <!-- Section 3: Documentation and Cost -->
+                        <section class="documentacion-costo">
+                            <h2>Documentación y Costo</h2>
+                            <div class="form-group">
+                                <label for="documento-link">Link Documento de Ejemplo:</label>
+                                <label for="documento-link" style="font-size:12px;color:var(--muted)"> aqui van imagenes de los documentos como referencia de tus clientes.</label>
+                                <input type="url" id="documento-link" name="documento-link" placeholder="https://...">
+                            </div>
+                            <div class="form-group">
+                                <label for="monto-total">Monto Total (opcional):</label>
+                                <label for="monto-total" style="font-size:12px;color:var(--muted)">indica si tus clientes deben abonar algun monto durante todo el tramite(dejar en blanco si no aplica)</label>
+                                <input type="number" id="monto-total" name="monto-total" step="0.01" placeholder="0.00">
+                            </div>
+                            
+                        </section>
+                    </div>
+                </div>
+                
+            </form>
+        </section>
+        <!-- Section 2: Steps/Pasos -->
+        <section class="pasos-section">
+            <h2>Pasos del Trámite</h2>
+            <div id="pasos-container"></div>
+            <button type="button" id="agregar-paso" class="btn btn-primary">+ Agregar Paso</button>
+        </section>
+        <!-- Save Button -->
+        <div class="right-panel">
+            <button type="button" id="guardar-tramite" class="btn btn-success">Guardar modificaciones</button>
+        </div>
+    </div>
+    <script type="module" src="/JS/logics/logic_crear_tramite.js"></script>
+    
+</body>
+</html>

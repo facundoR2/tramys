@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <link rel="stylesheet" href="/CSS/usuario_style.css" />
+    <link rel="stylesheet" href="/CSS/basic.css">
+    <link rel="stylesheet" href="/CSS/componentes.css">
+    <link rel="stylesheet" href="/CSS/layout.css">
+    <title>Tramys - Mi Usuario</title>
+    
+</head>
+<body>
+    <header>
+        <div class="brand" aria-hidden="true">
+            <div class="logo">T</div>
+            <div>
+                <div>Tramys</div>
+                <div style="font-size:12px;color:var(--muted)">Gestión de trámites</div>
+            </div>
+        </div>
+
+        <div class="search-wrap" role="search" aria-label="Buscar lugar">
+            <input id="searchInput" type="search" placeholder="Buscar dirección o lugar (ej: San martin nnn, Rio Grande)" />
+            <ul id="listaResultados"></ul>
+            <div class="actions">
+                <button id="searchBtn" class="btn">Buscar</button>
+                <button id="locateBtn" class="btn secondary" title="Centrar en mi ubicación">Mi ubicación</button>
+            </div>
+        </div>
+
+        <div class="header-buttons" role="navigation" aria-label="Navegación principal">
+            <button id="btnTramite">Trámite</button>
+            <button id="btnDocumentos">Documentos</button>
+            <button id="btnLugares">Recintos</button>
+            <div class="divisor"></div>
+            <div style="display:flex;align-items:center;gap:8px">
+                <div style="text-align:right">
+                    <div id="userName" style="font-weight:700">Usuario Anónimo</div>
+                    <div id="typeAccess" style="font-size:12px;color:var(--muted)">Acceso limitado</div>
+                </div>
+                <a href="/usuario" class="btn" style="text-decoration:none;padding:8px 10px">Mi usuario</a>
+            </div>
+        </div>
+    </header>
+
+    <main style="height: auto; padding: 0; overflow-y: auto;">
+        <div class="user-dashboard">
+            <!-- Sección de Estadísticas -->
+            <section class="dashboard-section" aria-label="Estadísticas generales">
+                <h2 style="margin: 0 0 20px 0; color: var(--accent); font-size: 20px;">Estadísticas Generales</h2>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-value" id="statTramites">0</div>
+                        <div class="stat-label">Trámites Creados</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="statRecintos">0</div>
+                        <div class="stat-label">Recintos Disponibles</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="statUsuarios">0</div>
+                        <div class="stat-label">Usuarios Registrados</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="statSolicitudes">0</div>
+                        <div class="stat-label">Solicitudes Activas</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Sección de Trámites -->
+            <section class="dashboard-section" aria-label="Trámites creados">
+                <div class="section-header">
+                    <h2>Mis Trámites</h2>
+                    <a href="/crear-tramite" class="btn" style="text-decoration: none;">+ Crear Trámite</a>
+                </div>
+                <div id="tramitesContainer" class="items-grid">
+                    <div class="empty-state">
+                        <div class="empty-state-icon">📋</div>
+                        <p>No has creado ningún trámite todavía</p>
+                        <a href="/crear-tramite" class="btn" style="text-decoration: none; display: inline-block; padding: 10px 16px;">Crear mi primer trámite</a>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Sección de Recintos -->
+            <section class="dashboard-section" aria-label="Recintos generados">
+                <div class="section-header">
+                    <h2>Mis Recintos</h2>
+                    <a href="/crear-recinto" class="btn" style="text-decoration: none;">+ Crear Recinto</a>
+                </div>
+                <div id="recintosContainer" class="items-grid">
+                    <div class="empty-state">
+                        <div class="empty-state-icon">📍</div>
+                        <p>No has creado ningún recinto todavía</p>
+                        <a href="/crear-recinto" class="btn" style="text-decoration: none; display: inline-block; padding: 10px 16px;">Crear mi primer recinto</a>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <script src="/JS/logics/logic_usuarioHome.js"></script>
+</body>
+</html>
