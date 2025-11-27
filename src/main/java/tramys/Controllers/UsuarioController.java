@@ -12,66 +12,71 @@ import tramys.DTOS.DarBajaUsuarioDTO;
 import tramys.Models.Rol;
 import tramys.Models.Usuario;
 import tramys.Repositorys.UsuarioRepository;
+import tramys.Services.UsuarioService;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api") // aca se derivan las peticiones
 public class UsuarioController {
 
-    @Autowired //para no instanciar a cada rato
-    private UsuarioRepository usuarioRepository;
+    private final UsuarioService userService;
 
-
-    @GetMapping("/usuario/current")
-    public ResponseEntity<Object> getUsuarioActual() {
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-
-        if (principal instanceof UserDetails) {
-            String username = ((UserDetails) principal).getUsername(); //adquiere el correo del usuario actualmente logeado.
-            Usuario usuario = usuarioRepository.findByCorreo(username).orElse(null);
-            if (usuario == null){
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("error: Usuario no encontrado"); //devuelve error de usuario no encontrado.
-            }
-            return new ResponseEntity<>(usuario,HttpStatus.OK);
-        } else {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
-
-        }
-
-
+    public UsuarioController(UsuarioService userService){
+        this.userService = userService;
     }
 
-    @PostMapping("/usuario")
-    public ResponseEntity<Object> crearUsuario(@RequestBody CrearUsuarioDTO crearUsuarioDTO){
-        //crear validaciones
-        if(crearUsuarioDTO.getNombre().isBlank()){
-            return new ResponseEntity<>("El campo no puede estar vacio. ", HttpStatus.FORBIDDEN);
-        }
-        Usuario usuario = new Usuario(crearUsuarioDTO.getNombre(),crearUsuarioDTO.getApellido(),crearUsuarioDTO.getCorreo(),(crearUsuarioDTO.getPassword()));
-        usuario.setRol(Rol.USUARIO);
-        usuarioRepository.save(usuario);
 
-        return new ResponseEntity<>("USUARIO creado correctamente",HttpStatus.OK);
+//    @GetMapping("/usuario/current")
+//    public ResponseEntity<Object> getUsuarioActual() {
+//        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+//
+//        if (principal instanceof UserDetails) {
+//            String username = ((UserDetails) principal).getUsername(); //adquiere el correo del usuario actualmente logeado.
+//            Usuario usuario = .findByCorreo(username).orElse(null);
+//            if (usuario == null){
+//                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("error: Usuario no encontrado"); //devuelve error de usuario no encontrado.
+//            }
+//            return new ResponseEntity<>(usuario,HttpStatus.OK);
+//        } else {
+//            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+//
+//        }
+//
+//
+//    }
+
+    @PostMapping("/usuario/crear")
+    public ResponseEntity<?> crearUsuario(@RequestBody CrearUsuarioDTO crearUsuarioDTO){
+        Map<String,Object> response = new HashMap<>();
+        //crear validaciones
+        if(crearUsuarioDTO.getNombre().isBlank() || crearUsuarioDTO.getCorreo().isEmpty()){
+            response.put("success", false);
+            response.put("message","El campo no puede estar vacio.");
+            return ResponseEntity.badRequest().body(response);
+        }else {
+            try {
+                userService.registrarUsuario(crearUsuarioDTO);
+                response.put("success", true);
+                response.put("message","Usuario registrado Correctamente");
+
+                return ResponseEntity.ok().body(response);
+
+            }catch (IllegalArgumentException a){
+                response.put("error",true);
+                response.put("message",a.getMessage());
+                return ResponseEntity.internalServerError().body(response);
+            }
+        }
     }
 
     @PutMapping("/usuario/baja")
     public ResponseEntity<Object> bajarUsuario(@RequestBody DarBajaUsuarioDTO darBajaUsuarioDTO){
-        if(darBajaUsuarioDTO.getNombre().isBlank()){
-            return new ResponseEntity<>("el nombre de usuario no puede estar vacio",HttpStatus.BAD_REQUEST);
-
-        }
-        // creo un nuevo usuarioDTO y le coloco los datos del usuario buscado.
-        Usuario usuario_baja = usuarioRepository.findByCorreo(darBajaUsuarioDTO.getCorreo()).orElse(null) ;
-        if (usuario_baja != null) {
-            usuario_baja.setEstado(0);
-        }
-        try {
-            usuarioRepository.save(usuario_baja);
-        }catch (Exception e) {
-            Exception falla_baja_repositorio = new Exception(e.getCause());
-        }
-        return new ResponseEntity<>("Usuario dado de baja correctamente",HttpStatus.OK);
-
-    };
+        Map<String,Object> response = new HashMap<>();
+        userService.borrarLogicamente(darBajaUsuarioDTO);
+       return ResponseEntity.ok().body(response);
+    }
 
 
 

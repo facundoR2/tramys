@@ -14,7 +14,7 @@ import java.util.Optional;
 
 public interface RecintoRepository extends JpaRepository<Recinto,Integer> {
 
-    Recinto findBynombre(String nombre);
+    Optional<Recinto> findBynombre(String nombre);
 
     @Override
     Optional<Recinto> findById(Integer integer);
@@ -23,6 +23,7 @@ public interface RecintoRepository extends JpaRepository<Recinto,Integer> {
     List<Recinto> findRandomRecintos();
 
     List<Recinto> findBynombreContainingIgnoreCase(String nombre);
+
 
     @Modifying
     @Transactional

@@ -12,8 +12,9 @@ public class Paso {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
     @GenericGenerator(name = "native", strategy = "native")
-    private int id;
+    private Integer idPaso;
 
+    private int orden;
     private String nombre;
     private String descripcion;
 
@@ -26,9 +27,10 @@ public class Paso {
 
     public  Paso(){}
 
-    public  Paso(String nombre,String descripcion){
+    public  Paso(int orden,String nombre,String descripcion){
         this.nombre = nombre;
         this.descripcion = descripcion;
+        this.orden = orden;
     }
 
 
@@ -36,6 +38,14 @@ public class Paso {
 
     //GETTERS Y SETTERS
 
+
+    public int getOrden() {
+        return orden;
+    }
+
+    public void setOrden(int orden) {
+        this.orden = orden;
+    }
 
     public String getNombre() {
         return nombre;

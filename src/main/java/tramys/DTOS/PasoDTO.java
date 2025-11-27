@@ -1,6 +1,8 @@
 package tramys.DTOS;
 
 public class PasoDTO {
+
+    private int orden;
     private String nombre;
     private String descripcion;
 
@@ -28,5 +30,13 @@ public class PasoDTO {
 
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
+    }
+
+    public void setOrden(int orden) {
+        this.orden = orden;
+    }
+
+    public int getOrden() {
+        return orden;
     }
 }

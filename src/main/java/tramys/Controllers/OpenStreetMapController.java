@@ -6,21 +6,35 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import tramys.DTOS.DireccionDTO;
 import tramys.Services.OpenStreetMapService;
 
+import java.util.List;
+
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/mapas")
 public class OpenStreetMapController {
-    private final OpenStreetMapService openStreetMapService;
+    private final OpenStreetMapService osmService;
 
     @Autowired
-    public OpenStreetMapController(OpenStreetMapService openStreetMapService) {
-        this.openStreetMapService = openStreetMapService;
+    public OpenStreetMapController(OpenStreetMapService osmService) {
+        this.osmService = osmService ;
+    }
+
+    @GetMapping("buscar")
+    public ResponseEntity<List<DireccionDTO>> buscarDirecciones(
+            @RequestParam String query
+    ) {
+        List<DireccionDTO> resultados = osmService.buscarDirecciones(query);
+        if(resultados.isEmpty()){
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.ok(resultados);
     }
 
     @GetMapping("/location")
     public ResponseEntity<String> getLocation(@RequestParam String query){
-        String locationData = openStreetMapService.getLocationData(query);
+        String locationData = osmService.getLocationData(query);
         return ResponseEntity.ok(locationData);
     }
 

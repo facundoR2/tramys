@@ -2,6 +2,7 @@ package tramys.Models;
 
 import jakarta.persistence.*;
 import org.hibernate.annotations.GenericGenerator;
+import tramys.DTOS.UsuarioDTO;
 
 
 import java.util.HashSet;
@@ -13,7 +14,7 @@ public class Tramite {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
     @GenericGenerator(name = "native", strategy = "native")
-    private int id;
+    private int idTramite;
 
     private String nombre;
 
@@ -23,16 +24,24 @@ public class Tramite {
     @OneToMany(mappedBy = "tramite", fetch = FetchType.EAGER)
     private Set<TramitePaso> tramitePasos = new HashSet<>();
 
+    //union con Recinto.
+
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "recinto_id")
+    @JoinColumn(name = "recinto",referencedColumnName = "idRecinto")
     private Recinto recinto;
+
+    //union con usuario.
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "Usuario",referencedColumnName = "idUsuario")
+    private Usuario usuario;
 
     public Tramite(){}
 
-    public Tramite(String nombre,Recinto recinto){
+    public Tramite(String nombre, Recinto recinto, Usuario usuario){
         this.nombre = nombre;
         this.estado = TramiteEstado.ACTIVO;
         setRecinto(recinto);
+        this.usuario = usuario;
     }
 
     public void setRecinto(Recinto recinto){
@@ -59,4 +68,41 @@ public class Tramite {
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setEstado(TramiteEstado estado) {
+        this.estado = estado;
+    }
+
+    public int getIdTramite() {
+        return idTramite;
+    }
+
+    public void setIdTramite(int idTramite) {
+        this.idTramite = idTramite;
+    }
+
+    public Set<TramitePaso> getTramitePasos() {
+        return tramitePasos;
+    }
+
+    public TramiteEstado getEstado() {
+        return estado;
+    }
+
+    public Recinto getRecinto() {
+        return recinto;
+    }
+
+    public void setTramitePasos(Set<TramitePaso> tramitePasos) {
+        this.tramitePasos = tramitePasos;
+    }
+
 }

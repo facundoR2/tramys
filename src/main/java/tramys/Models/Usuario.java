@@ -11,7 +11,7 @@ public class Usuario {
     @Id
     @GeneratedValue (strategy = GenerationType.AUTO, generator = "native")
     @GenericGenerator(name = "native", strategy = "native")
-    private int id;
+    private int idUsuario;
 
     private String nombre;
 
@@ -37,11 +37,11 @@ public class Usuario {
     }
 
     public int getId() {
-        return id;
+        return idUsuario;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setId(int idUsuario) {
+        this.idUsuario = idUsuario;
     }
 
     public String getNombre() {

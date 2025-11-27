@@ -1,5 +1,7 @@
 package tramys.DTOS;
 
+import tramys.Models.Rol;
+
 public class CrearUsuarioDTO {
 
     private String nombre;
@@ -7,15 +9,10 @@ public class CrearUsuarioDTO {
     private String password;
     private String correo;
 
+    private Rol rol;
+
     public CrearUsuarioDTO(){}
 
-    public CrearUsuarioDTO(String nombre, String apellido, String password, String correo){
-        this.nombre = nombre;
-        this.apellido = apellido;
-        this.correo = correo;
-        this.password = password;
-
-    }
 
     public String getNombre() {
         return nombre;
@@ -47,5 +44,13 @@ public class CrearUsuarioDTO {
 
     public void setCorreo(String correo) {
         this.correo = correo;
+    }
+
+    public void setRol(Rol rol) {
+        this.rol = rol;
+    }
+
+    public Rol getRol() {
+        return rol;
     }
 }

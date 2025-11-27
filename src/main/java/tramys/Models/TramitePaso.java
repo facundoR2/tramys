@@ -12,14 +12,14 @@ public class TramitePaso {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
     @GenericGenerator(name = "native", strategy = "native")
-    private int id;
+    private Integer idTramitePaso;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "tramite_id")
+    @JoinColumn(name = "tramite_id",referencedColumnName = "idTramite")
     private Tramite tramite;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name ="paso_id")
+    @JoinColumn(name ="Paso",referencedColumnName = "idPaso")
     private Paso paso;
 
     private Integer orden; // el orden de los pasos
@@ -54,5 +54,13 @@ public class TramitePaso {
 
     public void setOrden(Integer orden) {
         this.orden = orden;
+    }
+
+    public Integer getIdTramitePaso() {
+        return idTramitePaso;
+    }
+
+    public void setIdTramitePaso(Integer idTramitePaso) {
+        this.idTramitePaso = idTramitePaso;
     }
 }

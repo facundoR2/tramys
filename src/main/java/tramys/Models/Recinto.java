@@ -13,7 +13,7 @@ public class Recinto {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
     @GenericGenerator(name = "native", strategy = "native")
-    private int id;
+    private int idRecinto;
 
     private double lat;
     private double lng;

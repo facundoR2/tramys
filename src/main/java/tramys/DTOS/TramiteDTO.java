@@ -9,25 +9,10 @@ public class TramiteDTO {
 
     private String nombreRecinto;
 
-    public TramiteDTO(){}
+    private String usuario; //username( el email)
 
 
 
-    public TramiteDTO(List<PasoDTO> pasos,String nombre,String nombreRecinto){
-        this.pasos = pasos;
-        this.nombre = nombre;
-        this.nombreRecinto = nombreRecinto;
-
-    }
-
-    @Override
-    public String toString() {
-        return "TramiteDTO{" +
-                "pasos=" + pasos +
-                ", nombre='" + nombre + '\'' +
-                ", nombreRecinto='" + nombreRecinto + '\'' +
-                '}';
-    }
 
 
     public List<PasoDTO> getPasos() {
@@ -52,5 +37,13 @@ public class TramiteDTO {
 
     public void setNombreRecinto(String nombreRecinto) {
         this.nombreRecinto = nombreRecinto;
+    }
+
+    public void setUsuario(String usuario) {
+        this.usuario = usuario;
+    }
+
+    public String getUsuario() {
+        return usuario;
     }
 }
