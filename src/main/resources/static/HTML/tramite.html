@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Trámite</title>
+    <!-- Archivo CSS externo -->
+    <link rel="stylesheet" href="../CSS/tramite_style.css" />
+</head>
+<body>
+    <!-- Menú de navegación (compatible con index.html) -->
+    <header class="site-header">
+        <nav class="main-nav">
+            <a class="logo" href="/index.html">Inicio</a>
+            <ul class="nav-list">
+                <li><a href="/index.html">Trámites</a></li>
+                <li><a href="/contacto.html">Contacto</a></li>
+                <li><a href="/ayuda.html">Ayuda</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="container">
+        <!-- Título del trámite (viene desde index.html como parámetro) -->
+        <h1 id="tramite-title">Detalle del trámite</h1>
+
+        <!-- Resumen general -->
+        <section id="tramite-summary" class="summary"></section>
+
+        <!-- Lista de pasos -->
+        <section id="tramite-steps" class="steps"></section>
+
+        <!-- Botones de acción -->
+        <div class="actions">
+            <a id="volver" class="btn" href="/index.html">Volver</a>
+            <button id="imprimir" class="btn secondary">Imprimir</button>
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <small>© Institución - Sistema de Trámites</small>
+    </footer>
+
+    <script>
+        // GitHub Copilot
+        // El componente acepta parámetros por la URL:
+        // - titulo = texto (nombre del trámite)
+        // - data = JSON string (urlencoded o base64) con estructura:
+        //   { description: "...", steps: [ { title, description, documents: [], payment: { required: true/false, amount: "100 MXN" } } ] }
+        // - alternativa simple: steps como JSON en el parámetro steps
+        (function () {
+            const qs = new URLSearchParams(location.search);
+            const titleParam = qs.get('titulo') || qs.get('tituloTramite') || '';
+            const rawData = qs.get('data') || qs.get('steps') || '';
+
+            // Intenta decodificar data: first try URL-decoded JSON, then base64
+            function parseData(raw) {
+                if (!raw) return null;
+                try {
+                    // Try decodeURIComponent -> JSON
+                    const decoded = decodeURIComponent(raw);
+                    return JSON.parse(decoded);
+                } catch (e1) {
+                    try {
+                        // Try base64
+                        const b = atob(raw);
+                        return JSON.parse(b);
+                    } catch (e2) {
+                        try {
+                            // Try raw JSON
+                            return JSON.parse(raw);
+                        } catch (e3) {
+                            return null;
+                        }
+                    }
+                }
+            }
+
+            const parsed = parseData(rawData);
+
+            // Fallback de ejemplo si no hay datos
+            const sample = {
+                description: "Instrucciones generales para completar este trámite.",
+                steps: [
+                    {
+                        title: "Paso 1: Reunir documentación",
+                        description: "Reúna los documentos obligatorios antes de iniciar.",
+                        documents: ["Identificación oficial", "Comprobante de domicilio"],
+                        payment: { required: false }
+                    },
+                    {
+                        title: "Paso 2: Presentar solicitud",
+                        description: "Complete el formulario en ventanilla o en línea.",
+                        documents: ["Formulario de solicitud firmado"],
+                        payment: { required: true, amount: "250 MXN" }
+                    },
+                    {
+                        title: "Paso 3: Recoger comprobante",
+                        description: "Reciba su comprobante y verifique los datos.",
+                        documents: [],
+                        payment: { required: false }
+                    }
+                ]
+            };
+
+            const data = parsed || sample;
+
+            // Render
+            const h1 = document.getElementById('tramite-title');
+            h1.textContent = titleParam || (data && data.title) || 'Trámite';
+
+            const summary = document.getElementById('tramite-summary');
+            summary.innerHTML = '';
+            if (data.description) {
+                const p = document.createElement('p');
+                p.className = 'tr-desc';
+                p.textContent = data.description;
+                summary.appendChild(p);
+            }
+
+            const stepsContainer = document.getElementById('tramite-steps');
+            stepsContainer.innerHTML = '';
+
+            const steps = Array.isArray(data.steps) ? data.steps : [];
+            if (steps.length === 0) {
+                stepsContainer.innerHTML = '<p>No hay pasos definidos para este trámite.</p>';
+            } else {
+                steps.forEach((step, idx) => {
+                    const s = document.createElement('article');
+                    s.className = 'step';
+
+                    const header = document.createElement('div');
+                    header.className = 'step-header';
+                    const number = document.createElement('span');
+                    number.className = 'step-number';
+                    number.textContent = (idx + 1);
+                    const stitle = document.createElement('h2');
+                    stitle.className = 'step-title';
+                    stitle.textContent = step.title || `Paso ${idx + 1}`;
+                    header.appendChild(number);
+                    header.appendChild(stitle);
+
+                    const sdesc = document.createElement('p');
+                    sdesc.className = 'step-desc';
+                    sdesc.textContent = step.description || '';
+
+                    s.appendChild(header);
+                    s.appendChild(sdesc);
+
+                    // Documentos
+                    if (Array.isArray(step.documents) && step.documents.length > 0) {
+                        const docs = document.createElement('ul');
+                        docs.className = 'docs';
+                        step.documents.forEach(doc => {
+                            const li = document.createElement('li');
+                            li.textContent = doc;
+                            docs.appendChild(li);
+                        });
+                        s.appendChild(docs);
+                    }
+
+                    // Pago
+                    if (step.payment && step.payment.required) {
+                        const pay = document.createElement('div');
+                        pay.className = 'payment';
+                        const amt = step.payment.amount ? step.payment.amount : 'Consultar monto';
+                        pay.innerHTML = '<strong>Pago requerido:</strong> ' + amt;
+                        s.appendChild(pay);
+                    } else {
+                        const pay = document.createElement('div');
+                        pay.className = 'payment none';
+                        pay.textContent = 'Sin pago requerido';
+                        s.appendChild(pay);
+                    }
+
+                    stepsContainer.appendChild(s);
+                });
+            }
+
+            // Botones
+            document.getElementById('imprimir').addEventListener('click', function () {
+                window.print();
+            });
+
+            // Si se quiere, index.html puede pasar los datos via history.state en lugar de query string
+            if (!parsed && history.state && history.state.tramite) {
+                // Render desde history.state si existe
+                // (No sobrescribimos el título ya establecido)
+                // Ejemplo: history.replaceState({tramite: {...}}, '')
+            }
+        })();
+    </script>
+</body>
+</html>

@@ -1,0 +1,70 @@
+.form-layout {
+    display: grid;
+    grid-template-columns: 400px 1fr;
+    gap: 30px;
+    padding: 20px;
+}
+
+.left-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.right-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+.section-card {
+    background: white;
+    padding: 20px;
+    border-radius: 14px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.section-card h3 {
+    margin-bottom: 12px;
+}
+
+#map{
+    height: 300px;
+    width: 100%;
+    border-radius: 14px;
+    overflow: hidden;
+}
+
+.pasos-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.paso-item {
+    background: #f6f7fb;
+    padding: 12px;
+    border-radius: 10px;
+    border: 1px solid #dce0eb;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.paso-item input {
+    flex: 1;
+    margin-right: 10px;
+}
+
+.btn-delete {
+    background: #ff4d4d;
+    color: white;
+    padding: 6px 10px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+}
+
+.btn-delete:hover {
+    background: #e03a3a;
+}

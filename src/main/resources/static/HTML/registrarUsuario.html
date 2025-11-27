@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <link rel="stylesheet" href="/CSS/registro_style.css" />
+    <link rel="stylesheet" href="/CSS/componentes.css" />
+    <link rel="stylesheet" href="/CSS/layout.css" />
+    <link rel="stylesheet" href="/CSS/basic.css" />
+    <title>Tramys - Registro</title>
+    <style>
+       
+    </style>
+</head>
+<body>
+    <header>
+        <div class="brand" aria-hidden="true">
+            <div class="logo">T</div>
+            <div>
+                <div>Tramys</div>
+                <div style="font-size:12px;color:var(--muted)">Gestión de trámites</div>
+            </div>
+        </div>
+
+        <div class="search-wrap" role="search" aria-label="Buscar lugar">
+            <input id="searchInput" type="search" placeholder="Buscar dirección o lugar (ej: San martin nnn, Rio Grande)" />
+            <ul id="listaResultados"></ul>
+            <div class="actions">
+                <button id="searchBtn" class="btn">Buscar</button>
+                <button id="locateBtn" class="btn secondary" title="Centrar en mi ubicación">Mi ubicación</button>
+            </div>
+        </div>
+
+        <div class="header-buttons" role="navigation" aria-label="Navegación principal">
+            <button id="btnTramite">Trámite</button>
+            <button id="btnDocumentos">Documentos</button>
+            <button id="btnLugares">Lugares</button>
+            <div class="divisor"></div>
+            <a href="/HTML/usuario.html" class="btn" style="text-decoration:none;padding:8px 10px">Mi usuario</a>
+        </div>
+    </header>
+
+    <main>
+        <div class="register-panel">
+            <div class="register-card">
+                <h2 style="margin-top:0;color:var(--accent)">Crear cuenta</h2>
+                <p class="small-note">Completa el formulario para crear una nueva cuenta. Selecciona si te registras como cliente o proveedor.</p>
+
+                <form id="registroForm" class="form-column" novalidate>
+                    <div class="form-row" style="display:flex;gap:12px;">
+                        <div class="form-group" style="flex:1">
+                            <label for="nombre">Nombre</label>
+                            <input id="nombre" type="text" required />
+                        </div>
+                        <div class="form-group" style="flex:1">
+                            <label for="apellido">Apellido</label>
+                            <input id="apellido" type="text" required />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">Correo electrónico</label>
+                        <input id="email" type="email" placeholder="tu@ejemplo.com" required />
+                    </div>
+
+                    <div class="form-row" style="display:flex;gap:12px;">
+                        <div class="form-group" style="flex:1">
+                            <label for="password">Contraseña</label>
+                            <input id="password" type="password" required />
+                        </div>
+                        <div class="form-group" style="flex:1">
+                            <label for="confirmPassword">Confirmar contraseña</label>
+                            <input id="confirmPassword" type="password" required />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Registrarme como</label>
+                        <div class="radio-group" role="radiogroup" aria-label="Tipo de cuenta">
+                            <label><input type="radio" name="tipoCuenta" value="cliente" checked /> Cliente</label>
+                            <label><input type="radio" name="tipoCuenta" value="proveedor" /> Proveedor</label>
+                        </div>
+                    </div>
+
+                    <div id="proveedorFields" style="display:none;">
+                        <div class="form-group">
+                            <label for="empresa">Nombre de la empresa / razón social</label>
+                            <input id="empresa" type="text" />
+                        </div>
+                        <div class="form-group">
+                            <label for="rubro">Rubro / Actividad</label>
+                            <input id="rubro" type="text" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="telefono">Teléfono</label>
+                        <input id="telefono" type="tel" placeholder="+54 9 11 1234 5678" />
+                    </div>
+
+                    <div class="actions">
+                        <button type="button" id="cancelBtn" class="btn secondary">Cancelar</button>
+                        <button type="submit" class="btn">Crear cuenta</button>
+                    </div>
+                </form>
+            </div>
+
+            <aside class="side-info">
+                <div class="info-card">
+                    <strong>Ventajas de crear cuenta</strong>
+                    <ul style="margin:8px 0 0 16px;padding:0;color:var(--muted);">
+                        <li>Guardar trámites favoritos</li>
+                        <li>Acceder a recintos y horarios</li>
+                        <li>Recibir notificaciones</li>
+                    </ul>
+                </div>
+
+                <div class="info-card">
+                    <strong>Proveedor</strong>
+                    <p class="small-note" style="margin:6px 0 0 0">Si eres proveedor, indica tu empresa y actividad para aparecer en listados relevantes.</p>
+                    <ul style="margin:8px 0 0 16px;padding:0;color:var(--muted);">
+                        <li>Mayor visibilidad</li>
+                        <li>Acceso a clientes potenciales</li>
+                        <li>Gestión de trámites simplificada</li>
+                    </ul>
+                </div>
+
+                <div class="info-card">
+                    <strong>Ayuda</strong>
+                    <p class="small-note" style="margin:6px 0 0 0">¿Tienes problemas? Escríbenos a soporte@tramys.example</p>
+                </div>
+            </aside>
+        </div>
+    </main>
+
+    <script>
+        const tipoRadios = document.querySelectorAll('input[name="tipoCuenta"]');
+        const proveedorFields = document.getElementById('proveedorFields');
+        const registroForm = document.getElementById('registroForm');
+
+        function updateProveedorVisibility() {
+            const selected = document.querySelector('input[name="tipoCuenta"]:checked').value;
+            proveedorFields.style.display = (selected === 'proveedor') ? 'block' : 'none';
+        }
+
+        tipoRadios.forEach(r => r.addEventListener('change', updateProveedorVisibility));
+        updateProveedorVisibility();
+
+        document.getElementById('cancelBtn').addEventListener('click', () => {
+            window.location.href = '/';
+        });
+
+        registroForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const nombre = document.getElementById('nombre').value.trim();
+            const apellido = document.getElementById('apellido').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            const tipo = document.querySelector('input[name="tipoCuenta"]:checked').value;
+            const empresa = document.getElementById('empresa').value.trim();
+            const telefono = document.getElementById('telefono').value.trim();
+
+            if (!nombre || !apellido || !email || !password || !confirmPassword) {
+                alert('Por favor completa los campos obligatorios.');
+                return;
+            }
+            if (!email.includes('@')) {
+                alert('Ingresa un correo válido.');
+                return;
+            }
+            if (password !== confirmPassword) {
+                alert('Las contraseñas no coinciden.');
+                return;
+            }
+
+            const payload = { nombre, apellido, email, tipo, empresa: tipo==='proveedor'?empresa:null, telefono };
+            console.log('Registrar usuario:', payload);
+            alert('Registro simulado. Revisa consola para ver los datos.');
+
+            // TODO: enviar al backend
+            // fetch('/api/registro', { method:'POST', body: JSON.stringify(payload) ... })
+
+            // redirigir después de registro
+            setTimeout(() => window.location.href = '/HTML/login.html', 700);
+        });
+    </script>
+</body>
+</html>

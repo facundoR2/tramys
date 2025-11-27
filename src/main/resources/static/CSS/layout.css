@@ -1,0 +1,17 @@
+.main-layout {
+    display: grid;
+    grid-template-columns: 1fr 350px;
+    gap: 20px;
+    padding: 20px;
+}
+
+.map-container {
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.10);
+}
+#map {
+    width: 30%;
+    height: calc(100vh - 120px);
+    border-radius: 12px;
+}
